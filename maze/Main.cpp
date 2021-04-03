@@ -98,7 +98,7 @@ void WallDivision(int x, int y, int width, int height)
 		int Starty = y + height/2;
 
 		int NewW = width;
-		int NewH = height / 2;
+		int NewH = height / 2; 
 		
 		for (int i = 0; i < NewW; i++)
 		{

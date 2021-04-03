@@ -108,10 +108,10 @@ void WallDivision(int x, int y, int width, int height)
 		int Holex = Startx + rand() % width;
 		int Holey = Starty;
 		
-		Maze[Holex][Holey] = SPACE;
+		Maze[Holex][Holey] = SPACE; 
 
 	}
-
+	else   \
 
 
 }

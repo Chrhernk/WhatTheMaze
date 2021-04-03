@@ -90,7 +90,7 @@ void WallDivision(int x, int y, int width, int height)
 {
 
 		loadingBar();
-		bool HOR = false;
+		bool HOR = true;
 		if (width < 2 || height < 2)
 		{
 			return;

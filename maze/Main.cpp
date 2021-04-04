@@ -82,16 +82,16 @@ void PrintMaze(int width, int height)
 		{
 			if (Maze[j][i] == SPACE)
 			{
-				std::cout << " ";
+				std::cout << "  ";
 
 			}
 			else if (Maze[j][i] == HWALL)
 			{
-				std::cout << "-";
+				std::cout << " -";
 			}
 			else
 			{
-				std::cout << "|";
+				std::cout << " |";
 			}
 		}
 		std::cout << "?\n";

@@ -4,51 +4,55 @@
 #include <stdio.h>
 #include <windows.h>
 
+// These are Prototypes
 void MazeGeneration();
 void PrintMaze(int width, int height);
 void WallDivision(int x, int y, int width, int height);
 void loadingBar();
+// These are Prototypes
 
-const int HWALL = 2;
-const int VWALL = 1;
-const int SPACE = 0;
-int Maze[30][30] = {};
+const int HWALL = 2; // Setting the HWALL as 2
+const int VWALL = 1; // Setting the VWALL as 1
+const int SPACE = 0; // Setting Spaces as 0
+int Maze[30][30] = {}; // Inits a 30 X 30 grid for all mazes
 
 
 
 int main()
 {
-	srand(time(NULL));
+	srand(time(NULL)); // seeding random number generator
 
-	int width = 0;
-	int height = 0;
-	int Selection = 0;
-	loadingBar();
+	int width = 0; // Inting the Width
+	int height = 0;// Inting the Height
+	int Selection = 0; // Inting the selection Input
 
-	std::cout << "\n\n\t *** Maze Generation *** \n";
+	loadingBar(); // The first call of our Loading bar
 
-	std::cout << "Please Select What size Maze you wish to generate...\n\n";
+	std::cout << "\n\n\t *** Maze Generation *** \n"; // Title of the program
+
+	std::cout << "Please Select What size Maze you wish to generate...\n\n"; // Gets the user input from Cin
 	std::cout << "1. 25 x 25 \n";
 	std::cout << "2. 30 x 30 \n";
 	std::cin >> Selection;
 
-	switch (Selection)
+	switch (Selection) // Switch statement, Changing what maze the Player gets
 	{
 	case 1:
-		width = 25;
+		width = 25; // Setters for botht the Width and Height
 		height = 25;
-		MazeGeneration();
+		MazeGeneration(); // Goes to Maze Generation, setting up the maze
 		break;
 	case 2:
-		width = 30;
+		width = 30;// Setters for both the Width and Height
 		height = 30;
-		MazeGeneration();
+		MazeGeneration(); // Goes to Maze Generation, setting up the maze
 		break;
 	}
 
-	loadingBar();
-	WallDivision(0, 0, width, height);
-	PrintMaze(width, height);
+	loadingBar(); // Second call of Loading bar
+
+	WallDivision(0, 0, width, height); // Begins the RECURSIVE division of the walls
+	PrintMaze(width, height); // Prints out the Maze
 
 	return 0;
 }
@@ -56,11 +60,11 @@ int main()
 void MazeGeneration()
 {
 
-	for (int i=0; i < 30; i++)
+	for (int i=0; i < 30; i++) 
 	{
 		for (int j = 0; j < 30; j++)
 		{
-			Maze[i][j] = SPACE;
+			Maze[i][j] = SPACE; // Both for loops set all 30 x 30 Squares to Blank spaces
 		}
 	}
 
@@ -71,37 +75,37 @@ void PrintMaze(int width, int height)
 {
 	for (int i = 0; i < width*2 + 2; i++)
 	{
-		std::cout << "?";
+		std::cout << "?"; // Sets the Top bar as all ??
 	}
-	std::cout << "\n";
+	std::cout << "\n";// new line after the line of ?
 	
 	for (int i = 0; i < height; i++)
 	{
-		std::cout << "?";
+		std::cout << "?"; //Sets a question mark at the start of each line 
 		for (int j = 0; j < width; j++)
 		{
-			if (Maze[j][i] == SPACE)
+			if (Maze[j][i] == SPACE) // If its a blank space, It turns blank
 			{
 				std::cout << "  ";
 
 			}
-			else if (Maze[j][i] == HWALL)
+			else if (Maze[j][i] == HWALL)// If its not a space, and its called HWALL ( Horizontal Wall ) Than it gets placed like this
 			{
-				std::cout << " -";
+				std::cout << "__";
 			}
 			else
 			{
-				std::cout << " |";
+				std::cout << "||"; // Vertical Walls are the Else
 			}
 		}
-		std::cout << "?\n";
+		std::cout << "?\n";//Sets a question mark at the end of each line, and starts the next
 	}
-	for (int i = 0; i < width*2 + 2; i++)
+	for (int i = 0; i < width*2 + 2; i++) // sets the entire bottom line as ?
 	{
 		std::cout << "?";
 	}
-	std::cout << "\n";
-	system("pause");
+	std::cout << "\n"; // New line after printing.
+	system("pause"); // Pauses the Program after the Entirety is printed.
 }
 
 void WallDivision(int x, int y, int width, int height)
@@ -109,34 +113,36 @@ void WallDivision(int x, int y, int width, int height)
 
 
 
-		bool HOR = true;
-		if (width < 2 || height < 2)
+		bool HOR = true; // Bool Statement, Checking if Horizantal is true.
+		if (width < 2 || height < 2) // If too small, Breaks the loop
 		{
 			return;
 		}
 		if (width > height)
 		{
-			HOR = false;
+			HOR = false;// checks if width is greather than height, Thus seeing which cut needs to be made 
 		}
-		if (HOR)
+		if (HOR) // IF it is Horizantal
 		{
 			int Startx = x;
-			int Starty = y + height / 2;
+			int Starty = y + height / 2; // Selection is being made for where the slice goes
 
-			for (int i = 0; i < width; i++)
+			for (int i = 0; i < width; i++) // This is what sets it as a HWALL
 			{
 				Maze[Startx + i][Starty] = HWALL;
 			}
 
-			int Holex = Startx + rand() % width;
+			int Holex = Startx + rand() % width; // Hole is Randomly selected
 			int Holey = Starty;
 
-			Maze[Holex][Holey] = SPACE;
+			Maze[Holex][Holey] = SPACE; // Sets the Space 
 
-			WallDivision(x, y, width, height/2);
-			WallDivision(x, Starty+1, width, (height/2)-1);
+			WallDivision(x, y, width, height/2); // Calls to slice again, but only above the height it did last time
+			WallDivision(x, Starty+1, width, (height/2)-1);// calls to slice again, but under the OG height
+			
 		}
-		else
+		else // IF not HORIZANTAL, its Verticle!
+			// This works Just like the Above statement
 		{
 			int Startx = x + width / 2;
 			int Starty = y;
@@ -151,16 +157,15 @@ void WallDivision(int x, int y, int width, int height)
 
 			Maze[Holex][Holey] = SPACE;
 
-			WallDivision(x, y, width /2, height);
-			WallDivision(Startx +1, y, (width / 2) - 1, height);
-
+			WallDivision(x, y, width /2, height); // calls to slice to the left
+			WallDivision(Startx +1, y, (width / 2) - 1, height);// calls to slice to the right
 		}
 
-	
+	// This is all called Over, and Over again until it cant anymore
 
 }
 
-void loadingBar()
+void loadingBar() // This is a loading bar Function using PrintF
 {
 	// 0 - black background,
 	// 9 - Light Blue Foreground

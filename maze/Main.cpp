@@ -7,7 +7,7 @@
 // These are Prototypes
 void MazeGeneration();
 void PrintMaze(int width, int height);
-void WallDivision(int x, int y, int width, int height);
+void WallDivision(int x, int y, int width, int height, int Mwidth, int Mheight);
 void loadingBar();
 // These are Prototypes
 
@@ -24,6 +24,8 @@ int main()
 
 	int width = 0; // Inting the Width
 	int height = 0;// Inting the Height
+	int Mwidth = 0; // Inting the Max Width
+	int Mheight = 0;// Inting the Max Height
 	int Selection = 0; // Inting the selection Input
 
 	loadingBar(); // The first call of our Loading bar
@@ -40,18 +42,23 @@ int main()
 	case 1:
 		width = 25; // Setters for botht the Width and Height
 		height = 25;
+		Mwidth = 25; // Setters for botht the Width and Height
+		Mheight = 25;
+
 		MazeGeneration(); // Goes to Maze Generation, setting up the maze
 		break;
 	case 2:
 		width = 30;// Setters for both the Width and Height
 		height = 30;
+		Mwidth = 30;// Setters for both the Width and Height
+		Mheight = 30;
 		MazeGeneration(); // Goes to Maze Generation, setting up the maze
 		break;
 	}
 
 	loadingBar(); // Second call of Loading bar
 
-	WallDivision(0, 0, width, height); // Begins the RECURSIVE division of the walls
+	WallDivision(0, 0, width, height, Mwidth, Mheight); // Begins the RECURSIVE division of the walls
 	PrintMaze(width, height); // Prints out the Maze
 
 	return 0;
@@ -91,11 +98,11 @@ void PrintMaze(int width, int height)
 			}
 			else if (Maze[j][i] == HWALL)// If its not a space, and its called HWALL ( Horizontal Wall ) Than it gets placed like this
 			{
-				std::cout << "__";
+				std::cout << "##";
 			}
 			else
 			{
-				std::cout << "||"; // Vertical Walls are the Else
+				std::cout << "##"; // Vertical Walls are the Else
 			}
 		}
 		std::cout << "?\n";//Sets a question mark at the end of each line, and starts the next
@@ -108,11 +115,8 @@ void PrintMaze(int width, int height)
 	system("pause"); // Pauses the Program after the Entirety is printed.
 }
 
-void WallDivision(int x, int y, int width, int height)
+void WallDivision(int x, int y, int width, int height, int Mwidth, int Mheight)
 {
-
-
-
 		bool HOR = true; // Bool Statement, Checking if Horizantal is true.
 		if (width < 2 || height < 2) // If too small, Breaks the loop
 		{
@@ -132,14 +136,34 @@ void WallDivision(int x, int y, int width, int height)
 				Maze[Startx + i][Starty] = HWALL;
 			}
 
-			int Holex = Startx + rand() % width; // Hole is Randomly selected
-			int Holey = Starty;
+			int HoleCount = 0;
+			//if (Startx - 1 > 0 && Maze[Startx - 1][Starty] == SPACE)
+			//{
+			//	HoleCount++;
+			//	Maze[Startx][Starty] = SPACE;
+			//}
+			//if (Startx + width < Mwidth && Maze[Startx+width][Starty] == SPACE)
+			//{
+			//	HoleCount++;
+			//	Maze[Startx + (width - 1)][Starty] = SPACE;
+			//}
+			if (HoleCount == 0)
+			{
+				int Holex = Startx + rand() % width; // Hole is Randomly selected
+				int Holey = Starty;
 
-			Maze[Holex][Holey] = SPACE; // Sets the Space 
-
-			WallDivision(x, y, width, height/2); // Calls to slice again, but only above the height it did last time
-			WallDivision(x, Starty+1, width, (height/2)-1);// calls to slice again, but under the OG height
+				Maze[Holex][Holey] = SPACE; // Sets the Space 
+			}
+			WallDivision(x, y, width, height/2, Mwidth, Mheight); // Calls to slice again, but only above the height it did last time
 			
+			if (height % 2 == 0)
+			{
+				WallDivision(x, Starty +1, width, (height / 2)-1, Mwidth, Mheight);// calls to slice again, but under the OG height
+			}	
+			else
+			{
+				WallDivision(x, Starty + 1, width, (height / 2), Mwidth, Mheight);
+			}
 		}
 		else // IF not HORIZANTAL, its Verticle!
 			// This works Just like the Above statement
@@ -152,13 +176,35 @@ void WallDivision(int x, int y, int width, int height)
 				Maze[Startx][Starty + i] = VWALL;
 			}
 
+			int VHoleCount = 0;
+			//if (Starty - 1 > 0 && Maze[Startx][Starty - 1] == SPACE)
+			//{
+			//	VHoleCount++;
+			//	Maze[Startx][Starty] = SPACE;
+			//}
+			//if (Starty + height < Mheight && Maze[Startx][Starty + height] == SPACE)
+			//{
+			//	VHoleCount++;
+			//	Maze[Startx][Starty+(height-1)] = SPACE;
+			//}
+			if (VHoleCount == 0)
+			{
 			int Holex = Startx;
 			int Holey = Starty + rand() % height;
-
 			Maze[Holex][Holey] = SPACE;
+			}
+			
 
-			WallDivision(x, y, width /2, height); // calls to slice to the left
-			WallDivision(Startx +1, y, (width / 2) - 1, height);// calls to slice to the right
+			WallDivision(x, y, width /2, height, Mwidth, Mheight); // calls to slice to the left
+			if(width % 2 == 0)
+			{
+				WallDivision(Startx +1, y, (width / 2) - 1, height, Mwidth, Mheight);
+			}	// calls to slice to the right
+			else
+			{
+				WallDivision(Startx + 1, y, (width / 2), height, Mwidth, Mheight);
+			}
+		
 		}
 
 	// This is all called Over, and Over again until it cant anymore

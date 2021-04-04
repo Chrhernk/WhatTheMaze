@@ -163,8 +163,8 @@ void WallDivision(int x, int y, int width, int height)
 void loadingBar()
 {
 	// 0 - black background,
-	// A - Green Foreground
-	system("color 0A");
+	// 9 - Light Blue Foreground
+	system("color 09");
 
 	// Initialize char for printing
 	// loading bar

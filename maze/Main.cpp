@@ -4,12 +4,13 @@
 #include <stdio.h>
 #include <windows.h>
 
-void MazeGeneration(int width, int height);
+void MazeGeneration();
 void PrintMaze(int width, int height);
 void WallDivision(int x, int y, int width, int height);
 void loadingBar();
 
-const int WALL = 1;
+const int HWALL = 2;
+const int VWALL = 1;
 const int SPACE = 0;
 int Maze[30][30] = {};
 
@@ -36,19 +37,23 @@ int main()
 	case 1:
 		width = 25;
 		height = 25;
-		MazeGeneration(width, height);
+		MazeGeneration();
+		break;
 	case 2:
 		width = 30;
 		height = 30;
-		MazeGeneration(width, height);
+		MazeGeneration();
+		break;
 	}
+
+	loadingBar();
 	WallDivision(0, 0, width, height);
 	PrintMaze(width, height);
 
 	return 0;
 }
 
-void MazeGeneration(int width, int height)
+void MazeGeneration()
 {
 
 	for (int i=0; i < 30; i++)
@@ -64,7 +69,7 @@ void MazeGeneration(int width, int height)
 
 void PrintMaze(int width, int height)
 {
-	for (int i = 0; i < width + 2; i++)
+	for (int i = 0; i < width*2 + 2; i++)
 	{
 		std::cout << "?";
 	}
@@ -75,21 +80,35 @@ void PrintMaze(int width, int height)
 		std::cout << "?";
 		for (int j = 0; j < width; j++)
 		{
-			std::cout << Maze[j][i];
+			if (Maze[j][i] == SPACE)
+			{
+				std::cout << " ";
+
+			}
+			else if (Maze[j][i] == HWALL)
+			{
+				std::cout << "-";
+			}
+			else
+			{
+				std::cout << "|";
+			}
 		}
 		std::cout << "?\n";
 	}
-	for (int i = 0; i < width + 2; i++)
+	for (int i = 0; i < width*2 + 2; i++)
 	{
 		std::cout << "?";
 	}
 	std::cout << "\n";
+	system("pause");
 }
 
 void WallDivision(int x, int y, int width, int height)
 {
 
-		loadingBar();
+
+
 		bool HOR = true;
 		if (width < 2 || height < 2)
 		{
@@ -104,12 +123,9 @@ void WallDivision(int x, int y, int width, int height)
 			int Startx = x;
 			int Starty = y + height / 2;
 
-			int NewW = width;
-			int NewH = height / 2;
-
-			for (int i = 0; i < NewW; i++)
+			for (int i = 0; i < width; i++)
 			{
-				Maze[Startx + i][Starty] = WALL;
+				Maze[Startx + i][Starty] = HWALL;
 			}
 
 			int Holex = Startx + rand() % width;
@@ -117,18 +133,17 @@ void WallDivision(int x, int y, int width, int height)
 
 			Maze[Holex][Holey] = SPACE;
 
+			WallDivision(x, y, width, height/2);
+			WallDivision(x, Starty+1, width, (height/2)-1);
 		}
 		else
 		{
 			int Startx = x + width / 2;
 			int Starty = y;
 
-			int NewW = width / 2;
-			int NewH = height;
-
-			for (int i = 0; i < NewH; i++)
+			for (int i = 0; i < height; i++)
 			{
-				Maze[Startx][Starty + i] = WALL;
+				Maze[Startx][Starty + i] = VWALL;
 			}
 
 			int Holex = Startx;
@@ -136,7 +151,11 @@ void WallDivision(int x, int y, int width, int height)
 
 			Maze[Holex][Holey] = SPACE;
 
+			WallDivision(x, y, width /2, height);
+			WallDivision(Startx +1, y, (width / 2) - 1, height);
+
 		}
+
 	
 
 }

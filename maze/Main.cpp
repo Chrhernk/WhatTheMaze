@@ -214,8 +214,8 @@ void WallDivision(int x, int y, int width, int height, int Mwidth, int Mheight)
 void loadingBar() // This is a loading bar Function using PrintF
 {
 	// 0 - black background,
-	// A - Light Green Foreground
-	system("color 0A");
+	// 9 - Light Blue Foreground
+	system("color 09");
 
 	// Initialize char for printing
 	// loading bar

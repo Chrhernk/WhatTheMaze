@@ -137,16 +137,16 @@ void WallDivision(int x, int y, int width, int height, int Mwidth, int Mheight)
 			}
 
 			int HoleCount = 0;
-			//if (Startx - 1 > 0 && Maze[Startx - 1][Starty] == SPACE)
-			//{
-			//	HoleCount++;
-			//	Maze[Startx][Starty] = SPACE;
-			//}
-			//if (Startx + width < Mwidth && Maze[Startx+width][Starty] == SPACE)
-			//{
-			//	HoleCount++;
-			//	Maze[Startx + (width - 1)][Starty] = SPACE;
-			//}
+			 if (Startx - 1 > 0 && Maze[Startx - 1][Starty] == SPACE) // <- TODO:: FIX THIS
+			{
+				HoleCount++;
+				Maze[Startx][Starty] = SPACE;
+			}
+			if (Startx + width < Mwidth && Maze[Startx+width][Starty] == SPACE)// <- TODO:: FIX THIS
+			{
+				HoleCount++;
+				Maze[Startx + (width - 1)][Starty] = SPACE;
+			}
 			if (HoleCount == 0)
 			{
 				int Holex = Startx + rand() % width; // Hole is Randomly selected
@@ -177,16 +177,16 @@ void WallDivision(int x, int y, int width, int height, int Mwidth, int Mheight)
 			}
 
 			int VHoleCount = 0;
-			//if (Starty - 1 > 0 && Maze[Startx][Starty - 1] == SPACE)
-			//{
-			//	VHoleCount++;
-			//	Maze[Startx][Starty] = SPACE;
-			//}
-			//if (Starty + height < Mheight && Maze[Startx][Starty + height] == SPACE)
-			//{
-			//	VHoleCount++;
-			//	Maze[Startx][Starty+(height-1)] = SPACE;
-			//}
+			if (Starty - 1 > 0 && Maze[Startx][Starty - 1] == SPACE)// <- TODO:: FIX THIS
+			{
+				VHoleCount++;
+				Maze[Startx][Starty] = SPACE;
+			}
+			if (Starty + height < Mheight && Maze[Startx][Starty + height] == SPACE)// <- TODO:: FIX THIS
+			{
+				VHoleCount++;
+				Maze[Startx][Starty+(height-1)] = SPACE;
+			}
 			if (VHoleCount == 0)
 			{
 			int Holex = Startx;
@@ -214,8 +214,8 @@ void WallDivision(int x, int y, int width, int height, int Mwidth, int Mheight)
 void loadingBar() // This is a loading bar Function using PrintF
 {
 	// 0 - black background,
-	// 9 - Light Blue Foreground
-	system("color 09");
+	// A - Light Green Foreground
+	system("color 0A");
 
 	// Initialize char for printing
 	// loading bar

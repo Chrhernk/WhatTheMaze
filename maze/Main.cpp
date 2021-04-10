@@ -93,12 +93,12 @@ void PrintMaze(int width, int height)
 		{
 			if (Maze[j][i] == SPACE) // If its a blank space, It turns blank
 			{
-				std::cout << "  ";
+				std::cout << "  ";// changed
 
 			}
 			else if (Maze[j][i] == HWALL)// If its not a space, and its called HWALL ( Horizontal Wall ) Than it gets placed like this
 			{
-				std::cout << "##";
+				std::cout << "##"; 
 			}
 			else
 			{
@@ -142,6 +142,11 @@ void WallDivision(int x, int y, int width, int height, int Mwidth, int Mheight)
 				HoleCount++;
 				Maze[Startx][Starty] = SPACE;
 			}
+			if (Startx + 1 > 0 && Maze[Startx + 1][Starty] == SPACE) // <- TODO:: FIX THIS
+			{
+				HoleCount++;
+				Maze[Startx][Starty] = SPACE;
+			}
 			if (Startx + width < Mwidth && Maze[Startx+width][Starty] == SPACE)// <- TODO:: FIX THIS
 			{
 				HoleCount++;
@@ -181,6 +186,8 @@ void WallDivision(int x, int y, int width, int height, int Mwidth, int Mheight)
 			{
 				VHoleCount++;
 				Maze[Startx][Starty] = SPACE;
+
+				
 			}
 			if (Starty + height < Mheight && Maze[Startx][Starty + height] == SPACE)// <- TODO:: FIX THIS
 			{
